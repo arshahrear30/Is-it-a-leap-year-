@@ -1,0 +1,71 @@
+package com.timeforschool.problem;
+
+import android.os.Bundle;
+import android.provider.BlockedNumberContract;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import soup.neumorphism.NeumorphButton;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+
+        EditText ednumb=findViewById(R.id.ednum);
+        Button edresult=findViewById(R.id.edresult);
+
+
+        TextView tvdisplays=findViewById(R.id.tvdisplay);
+
+        edresult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(ednumb.length() >0  )
+                {
+                    if(ednumb.length() >3  )
+                    {
+
+                int ednumber=Integer.parseInt(ednumb.getText().toString());
+
+                if (ednumber%400==0) tvdisplays.setText(ednumber+ " is a leap year. ");
+                else if (ednumber%4==0 && ednumber%100!=0) tvdisplays.setText(ednumber+ " is a leap year.Opps... ");
+                else tvdisplays.setText(("This number is not a leap year."));
+                    }else{
+
+                        ednumb.setError("The year has to be greater than 1582, the first year the Gregorean calendar was employed.");
+
+                    }
+
+              }else{
+
+                ednumb.setError("Please enter a year");
+
+              }
+
+            }
+        });
+
+
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+}
